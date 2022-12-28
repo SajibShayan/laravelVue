@@ -1,64 +1,67 @@
 <template>
-<div>
+    <div>
 
-    <h2>Employee Registration</h2>
-    <form @submit.prevent="save" class="table">
+        <h2>Employee Registration</h2>
+        <form @submit.prevent="save" class="table">
 
-        <div class="form-group">
-            <label>Employee Name</label>
-            <input v-model="employee.name" type="text" class="form-control" placeholder="Enter Employee Name" required>
-        </div>
-        <div class="form-group">
-            <label>Employee Address</label>
-            <input v-model="employee.address" type="text" class="form-control" placeholder="Enter Employee Address" required>
-        </div>
-        <div class="form-group">
-            <label>Employee Mobile</label>
-            <input v-model="employee.mobile" type="text" class="form-control" placeholder="Enter Employee Mobile" required>
-        </div>
+            <div class="form-group">
+                <label>Employee Name</label>
+                <input v-model="employee.name" type="text" class="form-control" placeholder="Enter Employee Name"
+                    required>
+            </div>
+            <div class="form-group">
+                <label>Employee Address</label>
+                <input v-model="employee.address" type="text" class="form-control" placeholder="Enter Employee Address"
+                    required>
+            </div>
+            <div class="form-group">
+                <label>Employee Mobile</label>
+                <input v-model="employee.mobile" type="text" class="form-control" placeholder="Enter Employee Mobile"
+                    required>
+            </div>
 
-        <button type="submit" class="btn btn-primary">Save</button>
-    </form>
+            <button type="submit" class="btn btn-primary">Save</button>
+        </form>
 
-    <h2>Employee View</h2>
-    <div v-if="loading" class="text-center loading-div">
-        <div class="spinner-border text-warning" style="width: 3rem; height: 3rem;" role="status">
-            <span class="visually-hidden">Loading...</span>
+        <h2>Employee View</h2>
+        <div v-if="loading" class="text-center loading-div">
+            <div class="spinner-border text-primary" style="width: 5rem; height: 5rem;" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
         </div>
+        <table v-if="!loading" class="table table-dark">
+            <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Employee Name</th>
+                    <th scope="col">Address</th>
+                    <th scope="col">Mobile</th>
+                    <th scope="col">Option</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr v-for="(employee, index) in result.data" v-bind:key="employee.id">
+
+                    <td>{{ (this.page - 1) * 5 + (index + 1) }}</td>
+                    <!-- <td>{{ index + 1 }}</td> -->
+                    <td>{{ employee.name }}</td>
+                    <td>{{ employee.address }}</td>
+                    <td>{{ employee.mobile }}</td>
+                    <td>
+                        <button type="button" class="btn btn-warning" @click="edit(employee)">Edit</button>
+                        <button type="button" class="btn btn-danger" @click="remove(employee)">Delete</button>
+                    </td>
+
+                </tr>
+
+            </tbody>
+        </table>
+
+        <Bootstrap5Pagination align="center" :data="result" @pagination-change-page="EmployeeLoad"></Bootstrap5Pagination>
+
+        <button type="button" class="btn btn-info" @click="logout()">Logout</button>
     </div>
-    <table v-if="!loading" class="table table-dark">
-        <thead>
-            <tr>
-                <th scope="col">ID</th>
-                <th scope="col">Employee Name</th>
-                <th scope="col">Address</th>
-                <th scope="col">Mobile</th>
-                <th scope="col">Option</th>
-            </tr>
-        </thead>
-
-        <tbody>
-            <tr v-for="(employee, index) in result.data" v-bind:key="employee.id">
-
-                <td>{{ (this.page-1)*5 +(index+1) }}</td>
-                <!-- <td>{{ index + 1 }}</td> -->
-                <td>{{ employee.name }}</td>
-                <td>{{ employee.address }}</td>
-                <td>{{ employee.mobile }}</td>
-                <td>
-                    <button type="button" class="btn btn-warning" @click="edit(employee)">Edit</button>
-                    <button type="button" class="btn btn-danger" @click="remove(employee)">Delete</button>
-                </td>
-
-            </tr>
-
-        </tbody>
-    </table>
-   
-    <Bootstrap5Pagination align="center" :data="result" @pagination-change-page="EmployeeLoad"></Bootstrap5Pagination>
-
-    <button type="button" class="btn btn-info" @click="logout()">Logout</button>
-</div>
 </template>
 
 <script>
@@ -72,15 +75,12 @@ import storage from '@/services/storage.js'
 import {
     useRoute
 } from 'vue-router';
-import {
-    Bootstrap5Pagination
-} from 'laravel-vue-pagination';
+import { Bootstrap5Pagination } from 'laravel-vue-pagination';
 import sweetAlert from 'sweetalert';
-import {
-    createToaster
-} from "@meforma/vue-toaster";
+import {   createToaster } from "@meforma/vue-toaster";
 const toaster = createToaster({
-    /* options */ });
+    /* options */
+});
 
 export default {
     name: 'EmployeeView',
@@ -174,7 +174,7 @@ export default {
 
             axios.delete(del);
 
-            //alert("Deleted!!");
+            alert("Deleted!!");
             sweetAlert('Success', 'Data Deleted', 'error');
             this.EmployeeLoad(this.page);
 
@@ -227,10 +227,10 @@ export default {
 }
 
 .loading-div {
-
+    height: 300px;
     display: flex;
     justify-content: center;
     align-items: center;
-
+  
 }
 </style>
