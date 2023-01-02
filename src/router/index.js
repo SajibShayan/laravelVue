@@ -6,40 +6,13 @@ import Register from '@/components/Register'
 import Login from '@/components/Login'
 import About from '@/views/AboutView'
 import Home from '@/views/HomeView'
+import Profile from '@/components/Profile'
 
 // import Vue from 'vue'
 // import Router from 'vue-router'
 
 
 
-
-
-//  Vue.use(Router)
-
-// export default new Router({
-//   routes: [
-//     {
-//       path: '/',
-//       name: 'HelloWorld',
-//       component: HelloWorld
-//     },
-//     {
-//       path: '/empview',
-//       name: 'EmployeeView',
-//       component: EmployeeView
-//     },
-//     {
-//       path: '/register',
-//       name: 'Register',
-//       component: Register
-//     },
-//     {
-//       path: '/login',
-//       name: 'Login',
-//       component: Login
-//     }
-//   ]
-// })
 
 
 
@@ -86,7 +59,16 @@ const routes = [
         path: '/home',
         name: 'HomeView',
         component: Home,
-    }
+    },
+    {
+        path: '/profile',
+        name: 'Profile',
+        component: Profile,
+        meta: {
+            requiresAuth: false
+        }
+    },
+  
 
 ]
 
@@ -114,29 +96,10 @@ router.beforeEach((to, from, next) => {
     else {
         next();
     }
-    // if(to.meta.requiresAuth == false && localStorage.getItem('token')){
-
-    //     return { name: 'EmployeeView' };
-    // }
+    
 });
 
-// router.beforeEach((to, from, next) => { 
-//     if (to.meta.requiresAuth) {
-//       if (storage.getItem('token')) {
-//         next()
-//       } else {
-//         toaster.error('log in first', {
-//           position: 'bottom-right',
-//         })
-//         next('/login');
-//       }
-//     } else {
-//       next();
-//     }
 
-//       // name `data` whatever you want
-//       // to.meta.data = 123
-//   });
 
 
 export default router;

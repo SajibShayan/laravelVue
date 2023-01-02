@@ -36,13 +36,14 @@ import axios from'@/services/axios.js'
 import router from '@/router'
 import storage from '@/services/storage.js'
 
-
-
+import { reactive, toRefs, watchEffect, onMounted } from 'vue';
+import { useComposition } from '@/App.vue';
+import { createToaster } from "@meforma/vue-toaster";
 
 export default {
     name: 'Login',
-    data() {
-        return {
+    setup() {
+        const state = reactive({
             msg: '',
 
             resutl: {},
@@ -53,14 +54,15 @@ export default {
             },
             error:'',
             
-        }
+            
+        });
         
-    },
-    
-    methods: {
+   
+        const toaster = createToaster({ /* options */ });
+   
     
        
-      login(){
+    async function login(){
         axios.post("/login/save", this.loginObj)
         .then(
           ({data}) => {
@@ -69,21 +71,32 @@ export default {
                //alert('success');
             //    localStorage.setItem('token', data.data.token);
                storage.setItem('token', data.data.token);
-               
-               this.$toast.success(`Logged In Succesfully`, {
+               storage.setItem('user', data.data.user);
+
+               toaster.success(`Logged In Succesfully`, {
                 position: "top-right",
                });
                return router.push({path: '/empview'});
              }
              else{
               this.error = data.message;
+              //console.log(this.error);
              }
             // alert(data.message);
           }
         );
 
       }
-    }
+     
+
+      return {
+            ...toRefs(state),
+            login,
+            
+        }
+
+    }   
+    
 }
 </script>
 

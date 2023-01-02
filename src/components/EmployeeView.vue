@@ -1,6 +1,6 @@
 <template>
     <div>
-        <nav class="navbar navbar-expand-lg bg-light navbar navbar-dark bg-dark">
+        <!-- <nav class="navbar navbar-expand-lg bg-light navbar navbar-dark bg-dark">
             <div class="container-fluid">
                 <a class="navbar-brand" href="#">Navbar</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -54,7 +54,7 @@
                     </form>
                 </div>
             </div>
-        </nav>
+        </nav> -->
 
         <h2>Employee Registration</h2>
         <form @submit.prevent="save" class="table">
@@ -234,47 +234,47 @@ export default {
 
             alert("Deleted!!");
             sweetAlert('Success', 'Data Deleted', 'error');
-            this.EmployeeLoad(this.page);
+            this.EmployeeLoad();
 
         },
 
-        logout() {
+        // logout() {
 
-            if (storage.getItem('token')) {
+        //     if (storage.getItem('token')) {
 
-                alert('Are you sure?');
-                axios.post("/logout")
-                    .then(
-                        ({
-                            data
-                        }) => {
+        //         alert('Are you sure?');
+        //         axios.post("/logout")
+        //             .then(
+        //                 ({
+        //                     data
+        //                 }) => {
 
-                            if (data.success) {
+        //                     if (data.success) {
 
-                                storage.clearItem('token');
-                                toaster.success('Logged Out Successfully!', {
-                                    position: 'top-right'
-                                });
-                                return router.push({
-                                    path: '/login'
-                                });
-                            } else {
-                                this.error = data.message;
-                            }
-                            // alert(data.message);
-                        }
-                    );
-                // //localStorage.removeItem('token');
-                // storage.clearItem('token');
-                // return router.push({path: '/login'});
+        //                         storage.clearItem('token');
+        //                         toaster.success('Logged Out Successfully!', {
+        //                             position: 'top-right'
+        //                         });
+        //                         return router.push({
+        //                             path: '/login'
+        //                         });
+        //                     } else {
+        //                         this.error = data.message;
+        //                     }
+        //                     // alert(data.message);
+        //                 }
+        //             );
+        //         // //localStorage.removeItem('token');
+        //         // storage.clearItem('token');
+        //         // return router.push({path: '/login'});
 
-            } else if (!storage.getItem('token')) {
-                toaster.success('Already Logged Out!', {
-                    position: 'top-right'
-                });
-            }
+        //     } else if (!storage.getItem('token')) {
+        //         toaster.success('Already Logged Out!', {
+        //             position: 'top-right'
+        //         });
+        //     }
 
-        },
+        // },
 
     },
 

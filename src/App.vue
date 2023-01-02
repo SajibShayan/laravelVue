@@ -3,11 +3,7 @@
 
     <!-- <nav class="navbar navbar-expand-lg bg-light navbar navbar-dark bg-dark">
       <div class="container-fluid">
-        <a class="navbar-brand" href="#">Navbar</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
+        
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
@@ -42,8 +38,12 @@
                 <li>
                   <hr class="dropdown-divider">
                 </li>
-                <li><button type="button" class="btn btn-info dropdown-item" @click="logout()">Logout</button></li>
-
+                <li><a>
+                    <router-link class="dropdown-item" to="">Services</router-link>
+                  </a></li>
+        
+                    <li><button type="button" class="btn btn-info dropdown-item" @click="logout()">Logout</button></li>
+                 
               </ul>
             </li>
           </ul>
@@ -64,7 +64,9 @@
         <router-link to="/empview">EmployeeView</router-link>
 
     </nav> -->
+
     
+    <Nav></Nav>
 
     <router-view />
   </div>
@@ -74,57 +76,17 @@
 import axios from '@/services/axios.js'
 import storage from '@/services/storage.js'
 import router from '@/router';
-import {
-  useRoute
-} from 'vue-router';
-import {
-  createToaster
-} from "@meforma/vue-toaster";
-const toaster = createToaster({
-  /* options */
-});
+import { useRoute } from 'vue-router';
+import { createToaster } from "@meforma/vue-toaster";
+const toaster = createToaster({ /* options */ });
+import Nav from '@/components/Navbar'
 
 export default {
   name: 'App',
-  methods: {
-    logout() {
 
-      if (storage.getItem('token')) {
-
-        alert('Are you sure?');
-        axios.post("/logout")
-          .then(
-            ({
-              data
-            }) => {
-
-              if (data.success) {
-
-                storage.clearItem('token');
-                toaster.success('Logged Out Successfully!', {
-                  position: 'top-right'
-                });
-                return router.push({
-                  path: '/login'
-                });
-              } else {
-                this.error = data.message;
-              }
-              // alert(data.message);
-            }
-          );
-        // //localStorage.removeItem('token');
-        // storage.clearItem('token');
-        // return router.push({path: '/login'});
-
-      } else if (!storage.getItem('token')) {
-        toaster.success('Already Logged Out!', {
-          position: 'top-right'
-        });
-      }
-
-    },
-  }
+  components:{
+    Nav,
+  },
 }
 </script>
 
